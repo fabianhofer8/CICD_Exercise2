@@ -26,9 +26,22 @@ jobs:
       with:
         go-version: '1.20'
 
-    - name: Docker run Postgre
-      run: docker run --name postgres -p 5432:5432 -e POSTGRES_PASSWORD=${APP_DB_PASSWORD} -e POSTGRES_USER=${APP_DB_USERNAME} -e POSTGRES_DB=${APP_DB_NAME} -d postgres
-
+    - name: Docker run Postgre with SSL
+      run: |
+        docker run --name postgres \
+        -p 5432:5432 \
+        -e POSTGRES_PASSWORD=${APP_DB_PASSWORD} \
+        -e POSTGRES_USER=${APP_DB_USERNAME} \
+        -e POSTGRES_DB=${APP_DB_NAME} \
+        -v $(pwd)/server.crt:/var/lib/postgresql/server.crt \
+        -v $(pwd)/server.key:/var/lib/postgresql/server.key \
+        -e POSTGRES_SSL_CERT_FILE=/var/lib/postgresql/server.crt \
+        -e POSTGRES_SSL_KEY_FILE=/var/lib/postgresql/server.key \
+        -d postgres \
+        -c 'ssl=on' \
+        -c 'ssl_cert_file=/var/lib/postgresql/server.crt' \
+        -c 'ssl_key_file=/var/lib/postgresql/server.key'
+    
 
     - name: Build
       run: go build -v ./...
