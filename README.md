@@ -1,1 +1,1 @@
-CICD exercise 
+[![Go](https://github.com/fabianhofer8/CICD_Exercise2/actions/workflows/go.yml/badge.svg)](https://github.com/fabianhofer8/CICD_Exercise2/actions/workflows/go.yml)
