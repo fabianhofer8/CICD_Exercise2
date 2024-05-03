@@ -19,9 +19,9 @@ var a App
 func TestMain(m *testing.M) {
 	a = App{}
 	a.Initialize(
-		os.Getenv("TEST_DB_USERNAME"),
-		os.Getenv("TEST_DB_PASSWORD"),
-		os.Getenv("TEST_DB_NAME"))
+		"postgres",
+		"password",
+		"postgres")
 
 	ensureTableExists()
 
