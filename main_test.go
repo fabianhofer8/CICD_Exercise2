@@ -52,7 +52,7 @@ const tableCreationQuery = `CREATE TABLE IF NOT EXISTS products
 )`
 
 /*
-// tom: next functions added later, these require more modules: net/http net/http/httptest
+// tom: next functions added later, these require more modules: net/http net/http/httptestg
 
 	func TestEmptyTable(t *testing.T) {
 		clearTable()
