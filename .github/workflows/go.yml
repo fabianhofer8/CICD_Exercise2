@@ -48,7 +48,7 @@ jobs:
           go-version: '1.19'
       
       - name: Build Docker image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/myapp:${{ github.sha }} .'
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/myapp:${{ github.sha }} ./
 
       - name: Add Tag to image
         run: docker build -f Dockerfile -t ${{ secrets.DOCKER_USERNAME }}/myapp:latest ./
