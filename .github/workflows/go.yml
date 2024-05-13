@@ -35,6 +35,26 @@ jobs:
       - name: Test
         run: go test -v ./...
 
+  docker:
+    needs: build
+    name: Docker image build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.19'
+      
+      - name: Build Docker image
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/myapp:${{ github.sha }} .'
+
+      - name: Add Tag to image
+        run: docker build -f Dockerfile -t ${{ secrets.DOCKER_USERNAME }}/myapp:latest ./
+
+
+
   sonarCloud:
     needs: build
     name: SonarCloud Scan
@@ -51,3 +71,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
