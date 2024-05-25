@@ -15,8 +15,6 @@ env:
 
 jobs:
 
-
-
   build:
     runs-on: ubuntu-latest
     steps:
@@ -51,13 +49,15 @@ jobs:
       - name: Build Docker image
         run: docker build -t ${{ secrets.DOCKER_USERNAME }}/myapp:${{ github.sha }} ./
 
-      - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@0.20.0
+      - name: Run Trivy Docker vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        continue-on-error: true
         with:
           image-ref: '${{ secrets.DOCKER_USERNAME }}/myapp:${{ github.sha }}'
+          severity: 'CRITICAL,HIGH'
+          exit-code: 1
           format: 'sarif'
           output: 'trivy-results.sarif'
-          severity: 'CRITICAL,HIGH'
 
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v2
