@@ -77,7 +77,7 @@ jobs:
         run: docker push ${{ secrets.DOCKER_USERNAME }}/myapp:${{ github.sha }}
 
   Trivy-IaC-Mode:
-    needs: build
+    needs: docker
     name: Trivy in Iac Mode
     runs-on: ubuntu-latest
     permissions:
@@ -106,7 +106,7 @@ jobs:
 
 
   sonarCloud:
-    needs: docker
+    needs: Trivy-IaC-Mode
     name: SonarCloud Scan
     runs-on: ubuntu-latest
 
